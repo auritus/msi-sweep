@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PublishDocumentationFile>false</PublishDocumentationFile>
+  </PropertyGroup>
+
+  <!--
+    Compiler Switches for native AOT publishing and executable size-related
+    optimizations.
+
+    - https://learn.microsoft.com/en-us/dotnet/core/deploying/native-aot/optimizing
+  -->
+  <PropertyGroup Condition="'$(PublishAot)'==''">
+    <PublishAot>true</PublishAot>
+    <OptimizationPreference>Size</OptimizationPreference>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="MsiSweep.Tests" />
+  </ItemGroup>
+</Project>

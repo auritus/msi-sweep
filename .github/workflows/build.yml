@@ -1,0 +1,33 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Build
+        run: dotnet build MsiSweep.slnx -c Release
+
+      - name: Test
+        run: dotnet test --solution MsiSweep.slnx -c Release --no-build
+
+      - name: Publish Native AOT
+        run: dotnet publish source/MsiSweep -r win-x64 -c Release
+
+      - uses: actions/upload-artifact@v5
+        with:
+          name: MsiSweep-win-x64
+          path: artifacts/publish/MsiSweep/release_win-x64/MsiSweep.exe
+          if-no-files-found: error

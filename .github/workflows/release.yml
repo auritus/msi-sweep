@@ -1,0 +1,44 @@
+name: Release
+
+# Push a tag like v1.0.0 to build, test and publish a GitHub release with MsiSweep.exe attached.
+# The version of the executable is taken from the tag, so it always matches the release.
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Test
+        run: dotnet test --solution MsiSweep.slnx -c Release
+
+      - name: Publish Native AOT
+        shell: bash
+        run: dotnet publish source/MsiSweep -r win-x64 -c Release -p:Version="${GITHUB_REF_NAME#v}"
+
+      - name: Compute checksum
+        shell: bash
+        working-directory: artifacts/publish/MsiSweep/release_win-x64
+        run: sha256sum MsiSweep.exe > MsiSweep.exe.sha256
+
+      - name: Create release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >
+          gh release create "$GITHUB_REF_NAME"
+          artifacts/publish/MsiSweep/release_win-x64/MsiSweep.exe
+          artifacts/publish/MsiSweep/release_win-x64/MsiSweep.exe.sha256
+          --title "MsiSweep $GITHUB_REF_NAME"
+          --generate-notes

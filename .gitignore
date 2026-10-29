@@ -1,0 +1,19 @@
+# Build output (artifacts output layout, see Directory.Build.props)
+.codegraph
+artifacts/
+[Bb]in/
+[Oo]bj/
+TestResults/
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+launchSettings.json
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store

@@ -1,0 +1,23 @@
+<Solution>
+  <Folder Name="/.github/" />
+  <Folder Name="/.github/workflows/">
+    <File Path=".github/workflows/build.yml" />
+    <File Path=".github/workflows/release.yml" />
+  </Folder>
+  <Folder Name="/.root/">
+    <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="global.json" />
+    <File Path="LICENSE" />
+    <File Path="CHANGELOG.md" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/source/">
+    <Project Path="source/MsiSweep/MsiSweep.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/MsiSweep.Tests/MsiSweep.Tests.csproj" />
+  </Folder>
+</Solution>
